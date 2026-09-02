@@ -5,8 +5,6 @@
 
 A web app that lets a teacher upload a question paper and a student's handwritten answer sheet, automatically extracts and matches questions to answers, highlights the exact answer region on the sheet, and grades each answer with AI feedback.
 
----
-
 ## Features
 
 - Upload question paper and answer sheet (PDF or image) with real upload progress
@@ -18,8 +16,6 @@ A web app that lets a teacher upload a question paper and a student's handwritte
   - Answers that don't match any question (shown separately, not discarded)
 - Highlights the **exact region** of the matched answer directly on the rendered answer sheet
 - AI grading layer: per-question score, correct/incorrect verdict, short feedback, and an overall total score
-
----
 
 ## Screenshots
 
@@ -33,8 +29,6 @@ Clicking a question shows its matched answer, highlights the exact region on the
 
 ![Question mapping, highlight, and grading](./screenshots/mapping-highlight.png)
 
----
-
 ## Approach
 
 The app splits the problem into four independent stages: question extraction, answer extraction, matching, and grading. Keeping these separate made each stage easier to test and debug on its own, and made the trickier edge cases (sub-parts, unanswered questions, unmatched answers) straightforward to handle explicitly rather than as special cases buried in one big prompt.
@@ -46,8 +40,6 @@ The app splits the problem into four independent stages: question extraction, an
 
 The bounding box from step 2 is what powers the highlight overlay: clicking a question renders the original answer-sheet image (PDF pages are rasterized client-side using `pdf.js`) with an absolutely-positioned highlight box drawn at the matched answer's coordinates, scaled to the actual rendered image size.
 
----
-
 ## Tech Stack
 
 - **Next.js (App Router)** + TypeScript + Tailwind CSS
@@ -56,13 +48,9 @@ The bounding box from step 2 is what powers the highlight overlay: clicking a qu
 - **Vercel** for deployment
 - In-memory / client-side state only — no database, no authentication, per assignment scope
 
----
-
 ## AI Model/API Used
 
 Google Gemini (`gemini-3.6-flash`), free tier, via the Generative Language API.
-
----
 
 ## Assumptions & Limitations
 
@@ -71,8 +59,6 @@ Google Gemini (`gemini-3.6-flash`), free tier, via the Generative Language API.
 - The Gemini free tier has a 20-requests-per-day quota per model; heavy testing or repeated demoing can temporarily exhaust it (the app surfaces this as a clear error rather than failing silently).
 - Grading is AI-generated best-effort feedback, not an authoritative or human-verified score.
 - No authentication or persistent storage, per assignment scope — all state lives in memory for the current session.
-
----
 
 ## Running Locally
 
